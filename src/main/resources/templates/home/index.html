@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="x-ua-compatible" content="ie=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dashboard</title>
+<link rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<link rel="stylesheet" href="/css/home.css">
+<link rel="stylesheet" href="/css/menu.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+<link rel="icon" type="image/png" href="/img/logo-closed.png">
+</head>
+<body>
+    <!-- Dashboard Container -->
+    <div class="container-fluid mt-4">
+        <div class="row">
+            <!-- User Profile and Notifications -->
+            <div class="col-md-12 notifications-search">
+                <button style="border: none;" class="btn btn-outline-secondary notification-button">
+                    <i class="fas fa-bell"></i>
+                </button>
+                <!-- Search Bar -->
+                <div class="right-aligned-search">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Search...">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-secondary" style="border: none;" type="button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sales Metrics -->
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <div class="card text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Sales</h5>
+                        <p class="card-text">$5k <span class="text-success">(+10% from yesterday)</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Orders</h5>
+                        <p class="card-text">500 <span class="text-success">(+8% from yesterday)</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Products Sold</h5>
+                        <p class="card-text">9 <span class="text-success">(+2% from yesterday)</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-3">
+                <div class="card text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">New Customers</h5>
+                        <p class="card-text">12 <span class="text-success">(+3% from yesterday)</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Levels Section -->
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <div class="card text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Levels</h5>
+                        <div class="progress mb-3">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75%</div>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 60%;" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100">60%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Products Section -->
+            <div class="col-md-6 mb-3">
+                <div class="card text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Top Products</h5>
+                        <ul class="list-unstyled">
+                            <li>Home Decor Range (78%)</li>
+                            <li>Disney Princess Dress (62%)</li>
+                            <li>Bathroom Essentials (51%)</li>
+                            <li>Apple Smartwatch (29%)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customer Fulfillment Section -->
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <div class="card text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Customer Fulfillment</h5>
+                        <p class="card-text">This Month: $4,785</p>
+                        <p class="card-text">Last Month: $4,029</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
