@@ -1,0 +1,25 @@
+body {
+	background-color: rgb(23, 24, 33);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 90vh;
+	margin: 0;
+}
+
+.login {
+	max-width: 400px;
+	margin: 50px auto;
+	padding: 30px;
+	border-radius: 10px;
+	background-color:  rgb(33, 34, 45)
+}
+
+.login h1 {
+	margin-bottom: 20px;
+	color: white;
+}
+
+.error {
+	color: red;
+}

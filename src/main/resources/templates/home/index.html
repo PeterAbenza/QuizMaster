@@ -35,9 +35,52 @@
 		        </div>
 		    </div>
 		</div>
+		
+		<!-- Home - Lista de Quizzes -->
+		<div class="row mt-4" >
+		    <div class="col-12">
+		        <div class="card-columns">
+		            <div class="card" th:each="quiz : ${quizzes}" style="border: none; background-color: rgb(23, 24, 33)">
+		                <div class="card-body" style="background-color: rgb(33, 34, 45); color: white; border-radius: 20px;" >
+		                    <h5 class="card-title" th:text="${quiz.title}">Título do Quiz</h5>
+		                    <p class="card-text" th:text="${quiz.description}">Descrição do Quiz</p>
+		                    <p class="card-text">
+		                        <small class="text-muted" th:text="'Categoria: ' + ${quiz.category}">Categoria</small><br/>
+		                        <small class="text-muted" th:text="'Nível: ' + ${quiz.level}">Nível</small>
+		                    </p>
+		                    <a th:href="@{'/quiz/' + ${quiz.id}}" class="btn btn-primary btn-sm" style="background-color: #0078D7;">Jogar</a>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+		</div>
 
-		<!-- Home -->
+		<!-- Paginação -->
+		<div class="row mt-4">
+		    <div class="col-12">
+		        <nav>
+		            <ul class="pagination justify-content-center">
+		                <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+		                    <a class="page-link" th:href="@{'/?page=' + ${currentPage - 1}}" tabindex="-1">← Anterior</a>
+		                </li>
+		                <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+		                    th:classappend="${i == currentPage} ? 'active'">
+		                    <a class="page-link" th:href="@{'/?page=' + ${i}}"
+		                       th:text="${i + 1}">1</a>
+		                </li>
+		                <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+		                    <a class="page-link" th:href="@{'/?page=' + ${currentPage + 1}}">Próximo →</a>
+		                </li>
+		            </ul>
+		        </nav>
+		    </div>
+		</div>
+
     </div>
+	
+	<div th:replace="fragmentos/frag :: footer"></div>
+	
+	
     
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>

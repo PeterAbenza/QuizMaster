@@ -4,9 +4,28 @@
 }
 
 body {
-	background-color: #F5F5F5;
+	background-color:  rgb(23, 24, 33);
 }
 
 .navbar-collapse.collapse .separator-line {
 	display: none;
+}
+
+/* Paginação personalizada */
+.pagination .page-item .page-link {
+    color: #0078D7; /* Cor do texto */
+	background-color: rgb(33, 34, 45);
+	border: none;
+}
+
+.pagination .page-item.disabled .page-link {
+	
+    color: #BDC3C7; /* Cor para o link desativado */
+    border: none;
+}
+
+.pagination .page-item.active .page-link {
+	background-color: rgb(23, 24, 33);/* Cor de fundo do item ativo */
+    border-color: rgb(33, 34, 45); /* Cor da borda do item ativo */
+    color: white; /* Cor do texto do item ativo */
 }
