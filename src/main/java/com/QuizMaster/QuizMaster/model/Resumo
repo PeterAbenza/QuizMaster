@@ -1,0 +1,11 @@
+Usuários (users): Podem ser jogadores ou administradores.
+
+Quizzes (quizzes): Criados por administradores, contêm várias questões.
+
+Questões (questions): Relacionadas a um quiz específico, contêm várias alternativas.
+
+Alternativas (alternatives): Opções de resposta para cada questão, uma delas pode ser correta.
+
+Respostas (answers): Registro das respostas dadas pelos usuários para as questões, contendo a alternativa escolhida.
+
+Resultados (results): Armazenam a pontuação do usuário após completar um quiz.
