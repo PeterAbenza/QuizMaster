@@ -1,14 +1,12 @@
 package com.QuizMaster.QuizMaster.controller;
 
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +21,6 @@ import com.QuizMaster.QuizMaster.Repository.UsersRepository;
 import com.QuizMaster.QuizMaster.model.Quizzes;
 import com.QuizMaster.QuizMaster.model.Users;
 import com.QuizMaster.QuizMaster.model.Users.Role;
-
-import org.springframework.ui.Model;
 
 @Controller
 public class authPages{
@@ -50,6 +46,19 @@ public class authPages{
 		mv.addObject("quizzes", quizzesPage.getContent()); // Passa os quizzes para a view
 		mv.addObject("totalPages", quizzesPage.getTotalPages()); // Passa o total de páginas
 		mv.addObject("currentPage", page); // Passa a página atual
+		
+		
+		// Verifica se o usuário está autenticado e passa o nome para o template
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication != null && authentication.isAuthenticated()) {
+		    Object principal = authentication.getPrincipal();
+		    if (principal instanceof UserDetails) {
+		        UserDetails userDetails = (UserDetails) principal;
+		        mv.addObject("username", userDetails.getUsername()); // Passa o nome do usuário
+		    }
+		}
+
+	    
 		return mv;
 	}
 	

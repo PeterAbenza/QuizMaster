@@ -7,7 +7,6 @@
 <title>Login</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="/css/login.css">
-<link rel="icon" type="image/png" href="/img/logo-closed.png">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 <body>
@@ -22,10 +21,15 @@
 	              <div class="form-group">
 	                  <input type="password" class="form-control" name="password" placeholder="Senha" required="required">
 	              </div>
+				  
+				  <label style="color: white;">
+				        <input type="checkbox" name="remember-me"> Lembrar de mim
+				  </label>
 	              <!-- Exibir mensagem de erro -->
 	              <div class="error" th:if="${errorMessage}" th:text="${errorMessage}"></div>
 	              <button type="submit" class="btn btn-primary btn-block btn-large">Entrar</button>
 	          </form>
+			  
 	          
 	          <!-- Link para criar conta -->
 	          <div class="text-center mt-3">

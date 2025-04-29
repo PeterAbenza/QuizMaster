@@ -26,7 +26,7 @@ public class SecurityConfig {
 
         authenticationManagerBuilder
             .userDetailsService(userDetailsService)
-            .passwordEncoder(new BCryptPasswordEncoder());
+            .passwordEncoder(passwordEncoder());  // Usando o BCryptPasswordEncoder configurado abaixo
 
         return authenticationManagerBuilder.build();
     }
@@ -35,17 +35,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf().disable() // Desabilita o CSRF (ok no começo)
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(
-                    "/", 
-                    "/login", 
-                    "/criar-conta",
-                    "/css/**", 	
-                    "/js/**", 
-                    "/img/**", 
-                    "/fonts/**"
-                ).permitAll()
+                .requestMatchers("/", "/login", "/criar-conta", "/css/**", "/js/**", "/img/**", "/fonts/**").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(form -> form
@@ -55,16 +46,24 @@ public class SecurityConfig {
                 .defaultSuccessUrl("/", true)
                 .failureUrl("/login?error=true")
                 .permitAll()
-            )
+             )
+            .rememberMe(remember -> remember
+                .key("Quiz07032005")
+                .tokenValiditySeconds(1209600)
+                .rememberMeParameter("remember-me")
+             )
             .logout(logout -> logout
-                .logoutSuccessUrl("/login?logout=true")
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login?logout")
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
                 .permitAll()
-            );
+             );
 
         return http.build();
     }
 
-    // Para encriptar senhas (BCrypt é padrão seguro hoje)
+    // Bean para criptografar as senhas com BCrypt
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
