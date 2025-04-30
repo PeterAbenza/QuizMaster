@@ -28,8 +28,11 @@
 	                <li class="nav-item"><a class="btn-nav nav-item nav-link" href="#contact" style="color: #FFFFFF;">Rank</a></li>
 	                
 					<li class="nav-item" th:if="${username != null}">
-					    <span class="nav-item nav-link" style="color: #FFFFFF;" th:text="${username}">Nome do Usuário</span>
+					    <span class="nav-item nav-link" style="color: #FFFFFF;" th:text="${username}">Nome do Usuário</span>						
 					</li>
+					<a class="nav-item nav-link" th:if="${userRole == 'ADM'}" href="/admin/quiz/criar" style="color: #FFD700;">
+						PainelAdm
+					</a>
 					<li class="nav-item" th:if="${username != null}">
 					    <form th:action="@{/logout}" method="post">
 					        <button type="submit" class="btn-nav nav-link" style="background: none; border: none; color: #FFFFFF; cursor: pointer;">
@@ -40,8 +43,8 @@
 					<li class="nav-item" th:if="${username == null}">
 					    <a class="btn-nav nav-item nav-link" href="/login" style="color: #FFFFFF;">Login</a>
 					</li>
+					
 
-	                
 	                <li class="nav-item">
 	                    <a href="#" class="nav-link">
 	                        <i class="fas fa-bell" style="font-size: 18px; color: white;"></i>

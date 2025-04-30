@@ -48,17 +48,29 @@ public class authPages{
 		mv.addObject("currentPage", page); // Passa a página atual
 		
 		
-		// Verifica se o usuário está autenticado e passa o nome para o template
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication != null && authentication.isAuthenticated()) {
-		    Object principal = authentication.getPrincipal();
-		    if (principal instanceof UserDetails) {
-		        UserDetails userDetails = (UserDetails) principal;
-		        mv.addObject("username", userDetails.getUsername()); // Passa o nome do usuário
-		    }
-		}
-
+		// Verifica se o usuário está autenticado e busca o nome real
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 	    
+	    if (authentication != null && authentication.isAuthenticated()) { // usuario != vazio
+	    	
+	        Object principal = authentication.getPrincipal();
+	        
+	        if (principal instanceof UserDetails) {
+	            String email = ((UserDetails) principal).getUsername();
+	           
+	            usersRepository.findByEmail(email)
+                .ifPresent(user -> {
+                    String nomeSemEspacos = user.getName().replaceAll("\\s+", ""); // remove espaços vazios
+                    String nomeExibicao = nomeSemEspacos.length() > 6
+                        ? nomeSemEspacos.substring(0, 6) + "..."
+                        : nomeSemEspacos;
+                    mv.addObject("username", nomeExibicao);
+                    
+                    mv.addObject("userRole", user.getRole().name()); // Ex: ADM ou JOGADOR
+                });
+	        }
+	    }
+
 		return mv;
 	}
 	
@@ -76,16 +88,22 @@ public class authPages{
 	// REGISTRO:
 	
 	@GetMapping("/criar-conta")
-	public ModelAndView showCreateAccountForm() {
+	public ModelAndView showRegistro() {
 	    return new ModelAndView("registro/index");
 	}
 	
+	@GetMapping("/adm/criar-conta")
+	public ModelAndView showRegistroAdm() {
+	    return new ModelAndView("registro/adm");
+	}
+	
 	@PostMapping("/criar-conta")
-	public ModelAndView showRegistro(
+	public ModelAndView Registro(
 			@RequestParam String name, 
 			@RequestParam String email, 
 			@RequestParam String password, 
-			@RequestParam String confirmPassword) {
+			@RequestParam String confirmPassword,
+			@RequestParam(required = false) String role) {
 		
 		ModelAndView mv = new ModelAndView("registro/index");
 		
@@ -145,5 +163,44 @@ public class authPages{
 		return mv;
 	}
 	
+	
+	@PostMapping("/adm/criar-conta")
+	public ModelAndView RegistroAdm(@RequestParam String name, 
+	                                  @RequestParam String email, 
+	                                  @RequestParam String password, 
+	                                  @RequestParam String confirmPassword) {
+	    ModelAndView mv = new ModelAndView("registro/adm");
+
+	    // Validações do formulário
+	    if (!email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$")) {
+	        mv.addObject("errorMessage", "Formato de email inválido.");
+	        return mv;
+	    }
+	    if (name.length() < 3) {
+	        mv.addObject("errorMessage", "O nome deve ter pelo menos 3 caracteres.");
+	        return mv;
+	    }
+	    if (!password.equals(confirmPassword)) {
+	        mv.addObject("errorMessage", "As senhas não coincidem.");
+	        return mv;
+	    }
+	    if (usersRepository.findByEmail(email).isPresent()) {
+	        mv.addObject("errorMessage", "Email já registrado.");
+	        return mv;
+	    }
+
+	    // Cria o novo usuário como JOGADOR
+	    Users newUser = new Users();
+	    newUser.setName(name);
+	    newUser.setEmail(email);
+	    newUser.setPassword(passwordEncoder.encode(password));
+	    newUser.setRole(Users.Role.ADM);
+
+	    usersRepository.save(newUser);
+
+	    mv.setViewName("redirect:/login");
+	    return mv;
+	}
+
 	
 }
