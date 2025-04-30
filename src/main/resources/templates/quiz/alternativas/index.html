@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="x-ua-compatible" content="ie=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Iniciar Quiz</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+
+<div th:replace="fragmentos/frag :: cabecalho"></div>
+
+<div class="container mt-5" >
+    <div class="row justify-content-center" style="margin-top: 30vh; margin-bottom: 30vh;">
+        <div class="col-md-6">
+            <div class="card shadow-lg" style="border-radius: 15px; background-color: rgb(33, 34, 45);">
+                <div class="card-body text-center">
+                    <h3 class="card-title" th:text="${quiz.title}" style="color: white;">Título do Quiz</h3>
+                    <p class="card-text mt-3" th:text="${quiz.description}" style="color: white;">Descrição do quiz</p>
+                    <p class="text-muted" th:text="'Dificuldade: ' + ${quiz.level}">Dificuldade</p>
+                    <a th:href="@{'/quiz/' + ${quiz.id} + '/responder'}" class="btn btn-success btn-lg mt-3">
+                        Começar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="fragmentos/frag :: footer"></div>
+
+<script src="/js/index.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

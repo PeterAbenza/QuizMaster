@@ -22,8 +22,6 @@ public class HomeController{
 	@Autowired
 	private QuizzesRepository quizzesRepository;
 	
-	@Autowired
-    private UsersRepository usersRepository;
 	
 	@GetMapping("/")
 	public ModelAndView showHome(@RequestParam(value = "page", defaultValue = "0") Integer page) {
@@ -35,30 +33,6 @@ public class HomeController{
 		mv.addObject("quizzes", quizzesPage.getContent()); // quizzes para a view
 		mv.addObject("totalPages", quizzesPage.getTotalPages()); // total de páginas
 		mv.addObject("currentPage", page); // página atual
-		
-		
-		// Verifica se o usuário está autenticado e busca o nome real
-	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-	    
-	    if (authentication != null && authentication.isAuthenticated()) { // usuario != vazio
-	    	
-	        Object principal = authentication.getPrincipal();
-	        
-	        if (principal instanceof UserDetails) {
-	            String email = ((UserDetails) principal).getUsername();
-	           
-	            usersRepository.findByEmail(email)
-                .ifPresent(user -> {
-                    String nomeSemEspacos = user.getName().replaceAll("\\s+", ""); // remove espaços vazios
-                    String nomeExibicao = nomeSemEspacos.length() > 6
-                        ? nomeSemEspacos.substring(0, 6) + "..."
-                        : nomeSemEspacos;
-                    mv.addObject("username", nomeExibicao);
-                    
-                    mv.addObject("userRole", user.getRole().name()); // Ex: ADM ou JOGADOR
-                });
-	        }
-	    }
 
 		return mv;
 	}
