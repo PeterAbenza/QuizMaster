@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="x-ua-compatible" content="ie=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CreateQuiz</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/index.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+
+<div th:replace="fragmentos/frag :: cabecalho"></div>
+
+<div class="container mt-5" style="color: white;">
+    <h2 class="mb-4 text-center">Criar Novo Quiz</h2>
+
+    <form  method="post" style="background-color: rgb(33, 34, 45); color: white;"  th:action="@{/admin/quiz/criar-completo}" class="p-4 rounded shadow-sm">
+        <!-- Quiz info -->
+        <div class="form-group" >
+            <label for="title" style="color: white;">Título do Quiz</label>
+            <input type="text" class="form-control" id="title" name="title" required style="background-color: #323548; border-color: black; color: white;">
+        </div>
+
+        <div class="form-group">
+            <label for="description" style="color: white;">Descrição</label>
+            <textarea style="background-color: #323548; border-color: black; color: white;" class="form-control" id="description" name="description" rows="3" required></textarea >
+        </div>
+
+        <div class="form-group">
+            <label for="category" style="color: white;">Categoria</label>
+            <input type="text" style="background-color: #323548; border-color: black; color: white;" class="form-control" id="category" name="category" required>
+        </div>
+
+        <div class="form-group" style="color: white;">
+            <label for="level" >Nível</label>
+            <select class="form-control" id="level" name="level" required style="background-color: #323548; border-color: black;">
+                <option value="BEGINNER" style="color: white;">Iniciante</option>
+                <option value="INTERMEDIATE" style="color: white;">Intermediário</option>
+                <option value="ADVANCED" style="color: white;">Avançado</option>
+            </select>
+        </div>
+
+        <!-- Perguntas -->
+        <hr>
+        <h4 style="color: white;" >Perguntas</h4>
+        <div id="questions-container"></div>
+        <button type="button" class="btn btn-outline-primary mt-3" onclick="addQuestion()">+ Adicionar Pergunta</button>
+
+        <button type="submit" class="btn btn-success mt-4 d-block">Criar Quiz Completo</button>
+    </form>
+</div>
+
+
+<script src="/js/index.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

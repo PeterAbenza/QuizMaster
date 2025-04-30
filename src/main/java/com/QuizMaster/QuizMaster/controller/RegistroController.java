@@ -1,91 +1,24 @@
 package com.QuizMaster.QuizMaster.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.RequestParam;
 
-
-import com.QuizMaster.QuizMaster.Repository.QuizzesRepository;
 import com.QuizMaster.QuizMaster.Repository.UsersRepository;
-import com.QuizMaster.QuizMaster.model.Quizzes;
 import com.QuizMaster.QuizMaster.model.Users;
 import com.QuizMaster.QuizMaster.model.Users.Role;
 
 @Controller
-public class authPages{
-	
-	// IMPORT GERAL:
-	@Autowired
-	private QuizzesRepository quizzesRepository;
-	
-	@Autowired
-    private UsersRepository usersRepository;
+public class RegistroController {
 	
 	private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	
-	// HOME EM GERAL:
-	
-	@GetMapping("/")
-	public ModelAndView showHome(@RequestParam(value = "page", defaultValue = "0") Integer page) {
-		// Defina a página atual e o número de quizzes por página
-		Pageable pageable = PageRequest.of(page, 9); // 9 quizzes por página
-		Page<Quizzes> quizzesPage = quizzesRepository.findAll(pageable);
-
-		ModelAndView mv = new ModelAndView("home/index");
-		mv.addObject("quizzes", quizzesPage.getContent()); // Passa os quizzes para a view
-		mv.addObject("totalPages", quizzesPage.getTotalPages()); // Passa o total de páginas
-		mv.addObject("currentPage", page); // Passa a página atual
-		
-		
-		// Verifica se o usuário está autenticado e busca o nome real
-	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-	    
-	    if (authentication != null && authentication.isAuthenticated()) { // usuario != vazio
-	    	
-	        Object principal = authentication.getPrincipal();
-	        
-	        if (principal instanceof UserDetails) {
-	            String email = ((UserDetails) principal).getUsername();
-	           
-	            usersRepository.findByEmail(email)
-                .ifPresent(user -> {
-                    String nomeSemEspacos = user.getName().replaceAll("\\s+", ""); // remove espaços vazios
-                    String nomeExibicao = nomeSemEspacos.length() > 6
-                        ? nomeSemEspacos.substring(0, 6) + "..."
-                        : nomeSemEspacos;
-                    mv.addObject("username", nomeExibicao);
-                    
-                    mv.addObject("userRole", user.getRole().name()); // Ex: ADM ou JOGADOR
-                });
-	        }
-	    }
-
-		return mv;
-	}
-	
-	// LOGIN:
-	
-	@GetMapping("/login")
-	public ModelAndView showLogin(@RequestParam(value = "error", required = false) String error) {
-	    ModelAndView mv = new ModelAndView("login/index");
-	    if (error != null) {
-	        mv.addObject("errorMessage", "Email ou senha inválidos.");
-	    }
-	    return mv;
-	}
-	
-	// REGISTRO:
+	@Autowired
+    private UsersRepository usersRepository;
 	
 	@GetMapping("/criar-conta")
 	public ModelAndView showRegistro() {
@@ -97,8 +30,9 @@ public class authPages{
 	    return new ModelAndView("registro/adm");
 	}
 	
+	// add user cliente
 	@PostMapping("/criar-conta")
-	public ModelAndView Registro(
+	public ModelAndView RegistroCliente(
 			@RequestParam String name, 
 			@RequestParam String email, 
 			@RequestParam String password, 
@@ -164,6 +98,7 @@ public class authPages{
 	}
 	
 	
+	// add user adm
 	@PostMapping("/adm/criar-conta")
 	public ModelAndView RegistroAdm(@RequestParam String name, 
 	                                  @RequestParam String email, 
@@ -201,6 +136,4 @@ public class authPages{
 	    mv.setViewName("redirect:/login");
 	    return mv;
 	}
-
-	
 }
